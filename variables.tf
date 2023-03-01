@@ -26,6 +26,17 @@ variable "ec2_instance_connect" {
   default = true
 }
 
+variable "ec2_ssh_access" {
+  description = "Do we want to allow SSH access via EC2 Instance Connect?"
+  type = object({
+    enabled = bool
+    cidr = string})
+  default = {
+    enabled = false
+    cidr = "127.0.0.1/32"
+  }
+}
+
 #VPC stuff
 variable "vpc_cidr_block" {
   description = "CIDR block for VPC"
