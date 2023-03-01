@@ -1,6 +1,11 @@
 provider "aws" {
   region = var.aws_region
+  default_tags {
+    tags = var.tags
+  }
 }
+
+
 
 # data "aws_availability_zones" "available" {
 #   state = "available"
@@ -29,5 +34,7 @@ resource "aws_instance" "minecraft_server" {
   ami           = data.aws_ami.amzLinux.id
   instance_type = var.ec2_instance_type
 
-  tags = var.tags
+  tags = {
+    Name = "minecraft_server"
+  }
 }
