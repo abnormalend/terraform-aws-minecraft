@@ -1,1 +1,1 @@
-ec2_instance_type = "t3a.large"
+ec2_instance_type = "t3a.micro"
