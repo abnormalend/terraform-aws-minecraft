@@ -73,8 +73,7 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_access_port" {
 }
 
 resource "aws_iam_service_linked_role" "minecraft_server_role" {
-  name               = "minecraft_server_role"
-  aws_service_name   = "ec2"
+  aws_service_name   = "ec2.amazonaws.com"
 }
 
 # resource "aws_iam_role" "minecraft_server_role" {
