@@ -5,11 +5,16 @@ variable "aws_region" {
 }
 
 variable "tags" {
-    description = "Tags to put on everything"
-    type = map(string)
-    default = {
-        project = "terraform-aws-minecraft"
-    }
-  
+  description = "Tags to put on everything"
+  type        = map(string)
+  default = {
+    project = "terraform-aws-minecraft"
+  }
+
 }
 
+variable "ec2_instance_type" {
+  description = "This is the type of instance to use for the minecraft server"
+  type        = string
+  default     = "t3a.small"
+}
