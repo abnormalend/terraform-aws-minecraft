@@ -26,7 +26,7 @@ data "aws_ami" "amzLinux" {
 }
 
 resource "aws_instance" "minecraft_server" {
-  ami           = data.aws_ami.amzLinux
+  ami           = data.aws_ami.amzLinux.id
   instance_type = var.ec2_instance_type
 
   tags = var.tags
