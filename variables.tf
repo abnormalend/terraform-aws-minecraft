@@ -19,6 +19,13 @@ variable "ec2_instance_type" {
   type        = string
   default     = "t3a.micro"
 }
+
+variable "ec2_instance_connect" {
+  description = "Do we want to allow SSH access via EC2 Instance Connect?"
+  type = bool
+  default = true
+}
+
 #VPC stuff
 variable "vpc_cidr_block" {
   description = "CIDR block for VPC"

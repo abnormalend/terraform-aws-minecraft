@@ -51,6 +51,7 @@ resource "aws_vpc_security_group_ingress_rule" "minecraft_port" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "instance_connect_port" {
+  count = var.ec2_instance_connect ? 1 : 0
   security_group_id = aws_security_group.minecraft_security.id
   description = "Allows whole word access to the minecraft server port"
   cidr_ipv4   = "3.16.146.0/29"
