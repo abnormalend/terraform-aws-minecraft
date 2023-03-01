@@ -45,7 +45,7 @@ resource "aws_vpc_security_group_ingress_rule" "minecraft_port" {
   description = "Allows whole word access to the minecraft server port"
   cidr_ipv4   = "0.0.0.0/0"
   from_port   = 25565
-#   to_port     = 25565
+  to_port     = 25565
   ip_protocol = "tcp"
 }
 
