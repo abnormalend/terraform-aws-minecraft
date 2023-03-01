@@ -47,6 +47,17 @@ resource "aws_vpc_security_group_ingress_rule" "minecraft_port" {
   from_port   = 25565
   to_port     = 25565
   ip_protocol = "tcp"
+  tags = { Name = "Minecraft"}
+}
+
+resource "aws_vpc_security_group_ingress_rule" "instance_connect_port" {
+  security_group_id = aws_security_group.minecraft_security.id
+  description = "Allows whole word access to the minecraft server port"
+  cidr_ipv4   = "3.16.146.0/29"
+  from_port   = 22
+  to_port     = 22
+  ip_protocol = "tcp"
+  tags = { Name = "EC2 Instance Connect"}
 }
 
 resource "aws_instance" "minecraft_server" {
