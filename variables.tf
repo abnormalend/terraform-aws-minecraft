@@ -13,8 +13,15 @@ variable "tags" {
 
 }
 
+#EC2 stuff
 variable "ec2_instance_type" {
   description = "This is the type of instance to use for the minecraft server"
   type        = string
-  default     = "t3a.small"
+  default     = "t3a.micro"
+}
+#VPC stuff
+variable "vpc_cidr_block" {
+  description = "CIDR block for VPC"
+  type        = string
+  default     = "10.0.0.0/16"
 }
