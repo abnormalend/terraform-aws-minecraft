@@ -72,32 +72,32 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_access_port" {
   tags              = { Name = "SSH Access" }
 }
 
-resource "aws_iam_service_linked_role" "minecraft_server_role" {
-  aws_service_name   = "ec2.amazonaws.com"
-}
+# resource "aws_iam_service_linked_role" "minecraft_server_role" {
+#   aws_service_name   = "ec2.amazonaws.com"
+# }
 
-# resource "aws_iam_role" "minecraft_server_role" {
-#   name               = "minecraft_server_role"
-#   assume_role_policy = <<EOF
-# {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Action": "sts:AssumeRole",
-#             "Principal": {
-#                "Service": "ec2.amazonaws.com"
-#             },
-#             "Effect": "Allow",
-#             "Sid": ""
-#         }
-#     ]
-# }
-# EOF
-# }
+resource "aws_iam_role" "minecraft_server_role" {
+  name               = "minecraft_server_role"
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+               "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
 
 resource "aws_iam_instance_profile" "minecraft_server_profile" {
   name = "server_profile"
-  role = aws_iam_service_linked_role.minecraft_server_role.name
+  role = aws_iam_role.minecraft_server_role.name
 }
 
 resource "aws_instance" "minecraft_server" {
