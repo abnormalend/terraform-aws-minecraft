@@ -22,18 +22,18 @@ variable "ec2_instance_type" {
 
 variable "ec2_instance_connect" {
   description = "Do we want to allow SSH access via EC2 Instance Connect?"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "ec2_ssh_access" {
   description = "Do we want to allow SSH access via EC2 Instance Connect?"
   type = object({
     enabled = bool
-    cidr = string})
+  cidr = string })
   default = {
     enabled = false
-    cidr = "127.0.0.1/32"
+    cidr    = "127.0.0.1/32"
   }
 }
 
