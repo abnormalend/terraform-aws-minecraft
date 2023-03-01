@@ -97,7 +97,7 @@ resource "aws_iam_service_linked_role" "minecraft_server_role" {
 
 resource "aws_iam_instance_profile" "minecraft_server_profile" {
   name = "server_profile"
-  role = aws_iam_role.minecraft_server_role.name
+  role = aws_iam_service_linked_role.minecraft_server_role.name
 }
 
 resource "aws_instance" "minecraft_server" {
