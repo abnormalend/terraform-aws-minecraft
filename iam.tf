@@ -71,3 +71,19 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_files" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
+  count = var.s3_backup ? 1 : 0
+  name  = "minecraft_backups"
+  role  = aws_iam_role.minecraft_server_role.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["s3:*"]
+        Effect   = "Allow"
+        Resource = aws_s3_bucket.minecraft_files.arn
+      }
+    ]
+  })
+}
