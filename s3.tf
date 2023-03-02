@@ -28,7 +28,7 @@ resource "aws_ssm_parameter" "minecraft_backups-arn" {
 }
 
 resource "aws_s3_bucket_acl" "minecraft_backups_server_access" {
-  bucket = aws_s3_bucket.minecraft_backups[0].arn
+  bucket = aws_s3_bucket.minecraft_backups[0].bucket
   access_control_policy {
 
     grant {
