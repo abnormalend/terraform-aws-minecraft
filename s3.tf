@@ -17,8 +17,18 @@ resource "aws_s3_bucket" "minecraft_backups" {
   bucket_prefix = "minecraft-backups"
 }
 
+output "minecraft_backups_s3_arn" {
+  value = aws_s3_bucket.minecraft_backups[0].arn
+}
+
+resource "aws_ssm_parameter" "minecraft_backups-arn" {
+  name  = "minecraft_backups-arn"
+  type  = "String"
+  value = aws_s3_bucket.minecraft_backups[0].arn
+}
+
 resource "aws_s3_bucket_acl" "minecraft_backups_server_access" {
-  bucket = aws_s3_bucket.minecraft_backups.arn
+  bucket = aws_s3_bucket.minecraft_backups[0].arn
   access_control_policy {
 
     grant {
@@ -33,14 +43,4 @@ resource "aws_s3_bucket_acl" "minecraft_backups_server_access" {
       id = aws_iam_role.minecraft_server_role.id
     }
   }
-}
-
-output "minecraft_backups_s3_arn" {
-  value = aws_s3_bucket.minecraft_backups[0].arn
-}
-
-resource "aws_ssm_parameter" "minecraft_backups-arn" {
-  name  = "minecraft_backups-arn"
-  type  = "String"
-  value = aws_s3_bucket.minecraft_backups[0].arn
 }
