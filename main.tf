@@ -40,9 +40,14 @@ resource "aws_instance" "minecraft_server" {
   security_groups      = [aws_security_group.minecraft_security.name]
   iam_instance_profile = aws_iam_instance_profile.minecraft_server_profile.name
   tags = {
-    Name = "minecraft_server"
+    Name          = "minecraft_server"
+    s3_file_url   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
+    s3_backup_url = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
   }
 }
+
+
+
 
 output "instance_id" {
   value = aws_instance.minecraft_server.id
