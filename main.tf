@@ -10,24 +10,7 @@ provider "aws" {
 #   state = "available"
 # }
 
-data "aws_ami" "amzLinux" {
-  most_recent = true
-  owners      = ["amazon"]
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-gp2"]
-  }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
 
 resource "aws_iam_instance_profile" "minecraft_server_profile" {
   name = "minecraft_server_profile"

@@ -50,3 +50,10 @@ variable "s3_backup" {
   type        = bool
   default     = true
 }
+
+#DNS Stuff
+variable "dns_zone" {
+  description = "if set, we can use this to update dns"
+  type        = string
+  default     = ""
+}
