@@ -18,12 +18,12 @@ resource "aws_s3_bucket" "minecraft_backups" {
 }
 
 resource "aws_s3_bucket_acl" "minecraft_backups_server_access" {
-  bucket = aws_s3_bucket.minecraft_backups
+  bucket = aws_s3_bucket.minecraft_backups.arn
   access_control_policy {
 
     grant {
       grantee {
-        id   = aws_iam_role.minecraft_server_role
+        id   = aws_iam_role.minecraft_server_role.arn
         type = "CanonicalUser"
       }
       permission = "FULL_CONTROL"
