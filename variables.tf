@@ -43,3 +43,10 @@ variable "vpc_cidr_block" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
+#S3 stuff
+variable "s3_backup" {
+  description = "Do we plan on backing up the minecraft world to S3?"
+  type        = bool
+  default     = true
+}
