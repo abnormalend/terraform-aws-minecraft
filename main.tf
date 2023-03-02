@@ -30,7 +30,7 @@ data "aws_ami" "amzLinux" {
 }
 
 resource "aws_iam_instance_profile" "minecraft_server_profile" {
-  name = "server_profile"
+  name = "minecraft_server_profile"
   role = aws_iam_role.minecraft_server_role.name
 }
 
