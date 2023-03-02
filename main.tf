@@ -44,6 +44,10 @@ resource "aws_instance" "minecraft_server" {
   }
 }
 
+output "instance_id" {
+  value = aws_instance.minecraft_server.id
+}
+
 resource "aws_cloudwatch_log_group" "minecraft_log" {
   name              = "minecraft.log"
   retention_in_days = 30
