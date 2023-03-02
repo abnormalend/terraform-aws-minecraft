@@ -87,3 +87,24 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "dns_permissions" {
+  count = var.dns_zone ? 1 : 0
+  name = "dns_permissions"
+  role  = aws_iam_role.minecraft_server_role.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["route53:ChangeResourceRecordSets*"]
+        Effect   = "Allow"
+        Resource = "arn:aws:route53:::hostedzone/${data.aws_route53_zone.zone_details.zone_id}"
+      },
+      {
+        Action   = ["route53:ListHostedZones"]
+        Effect   = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
+}
