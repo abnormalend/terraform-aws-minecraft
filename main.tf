@@ -43,3 +43,13 @@ resource "aws_instance" "minecraft_server" {
     Name = "minecraft_server"
   }
 }
+
+resource "aws_cloudwatch_log_group" "minecraft_log" {
+  name              = "minecraft.log"
+  retention_in_days = 30
+}
+
+resource "aws_cloudwatch_log_group" "minecraft_server_messages" {
+  name              = "/var/log/messages"
+  retention_in_days = 30
+}
