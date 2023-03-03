@@ -27,6 +27,10 @@ resource "aws_instance" "minecraft_server" {
     s3_file_url   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
     s3_backup_url = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
   }
+  user_data = <<EOF
+#!/bin/bash
+echo "Test of user data"
+EOF
 }
 
 
