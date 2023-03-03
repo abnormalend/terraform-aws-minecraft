@@ -75,22 +75,24 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_files" {
   policy = data.aws_iam_policy_document.allow_minecraft_files.json
 }
 
-# resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
-#   count = var.s3_backup ? 1 : 0
-#   name  = "minecraft_backups"
-#   role  = aws_iam_role.minecraft_server_role.name
-#   policy = jsonencode({
-#     Version = "2012-10-17"
-#     Statement = [
-#       {
-#         Action = ["s3:*"]
-#         Effect = "Allow"
-#         Resources = [aws_s3_bucket.minecraft_backups[0].arn,
-#         "${aws_s3_bucket.minecraft_backups[0].arn}/*"]
-#       }
-#     ]
-#   })
-# }
+data "aws_iam_policy_document" "allow_minecraft_backups" {
+  statement {
+    actions = [
+      "s3:*",
+    ]
+    resources = [
+      aws_s3_bucket.minecraft_backups.arn,
+      "${aws_s3_bucket.minecraft_backups.arn}/*",
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
+  count = var.s3_backup ? 1 : 0
+  name  = "minecraft_backups"
+  role  = aws_iam_role.minecraft_server_role.name
+  policy = data.aws_iam_policy_document.allow_minecraft_backups.json
+}
 
 resource "aws_iam_role_policy" "dns_permissions" {
   count = var.dns_zone != "" ? 1 : 0

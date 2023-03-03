@@ -36,8 +36,8 @@ eval $export_statement
 
 
 # unzip /tmp/resources.zip -d /opt/resources
-sudo aws s3 sync $FileUrl /opt/resources
-
+sudo aws s3 sync $FileUrl/setup_files /opt/resources
+sudo aws s3 sync $FileUrl/minecraft_files /opt/s3_resources
 # source /opt/resources/export_instance_tags.sh
 echo $MINECRAFT_HOME
 
