@@ -66,7 +66,8 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_files" {
       {
         Action   = ["s3:*"]
         Effect   = "Allow"
-        Resource = aws_s3_bucket.minecraft_files.arn
+        Resources = [aws_s3_bucket.minecraft_files.arn,
+        "${aws_s3_bucket.minecraft_files.arn}/*"]
       }
     ]
   })
@@ -82,8 +83,8 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
       {
         Action = ["s3:*"]
         Effect = "Allow"
-        Resources = [aws_s3_bucket.minecraft_files.arn,
-        "${aws_s3_bucket.minecraft_files.arn}/*"]
+        Resources = [aws_s3_bucket.minecraft_backups[0].arn,
+        "${aws_s3_bucket.minecraft_backups[0].arn}/*"]
       }
     ]
   })
