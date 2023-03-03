@@ -26,11 +26,12 @@ resource "aws_instance" "minecraft_server" {
     Name          = "minecraft_server"
     s3_file_url   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
     s3_backup_url = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
+    Schedule      = "office-hours"
   }
   user_data_replace_on_change = true
-  user_data = <<EOF
+  user_data                   = <<EOF
 #!/bin/bash
-touch ~/test_user_data
+echo "test" > /test_user_data
 EOF
 }
 
