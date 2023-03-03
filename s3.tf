@@ -2,6 +2,11 @@ resource "aws_s3_bucket" "minecraft_files" {
   bucket_prefix = "minecraft-files"
 }
 
+resource "aws_s3_bucket_acl" "minecraft_files_acl" {
+  bucket = aws_s3_bucket.minecraft_files.bucket
+  acl    = "private"
+}
+
 output "minecraft_files_s3_arn" {
   value = aws_s3_bucket.minecraft_files.arn
 }
@@ -35,3 +40,4 @@ resource "aws_s3_object" "resource_files" {
   source = "resources/${each.value}"
   etag   = filemd5("resources/${each.value}")
 }
+

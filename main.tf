@@ -23,10 +23,11 @@ resource "aws_instance" "minecraft_server" {
   security_groups      = [aws_security_group.minecraft_security.name]
   iam_instance_profile = aws_iam_instance_profile.minecraft_server_profile.name
   tags = {
-    Name          = "minecraft_server"
-    FileUrl   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
-    BackupUrl = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
-    Schedule      = "office-hours"
+    Name         = "minecraft_server"
+    FileUrl      = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
+    BackupUrl    = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
+    Schedule     = "office-hours"
+    dns_hostname = "terraminecraft"
   }
   user_data_replace_on_change = true
   user_data                   = file("user_data/setup.sh")
