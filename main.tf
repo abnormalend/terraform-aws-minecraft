@@ -24,8 +24,8 @@ resource "aws_instance" "minecraft_server" {
   iam_instance_profile = aws_iam_instance_profile.minecraft_server_profile.name
   tags = {
     Name          = "minecraft_server"
-    s3FileUrl   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
-    s3BackupUrl = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
+    FileUrl   = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
+    BackupUrl = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
     Schedule      = "office-hours"
   }
   user_data_replace_on_change = true
