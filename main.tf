@@ -29,10 +29,7 @@ resource "aws_instance" "minecraft_server" {
     Schedule      = "office-hours"
   }
   user_data_replace_on_change = true
-  user_data                   = <<EOF
-#!/bin/bash
-echo "test" > /test_user_data
-EOF
+  user_data                   = file("user_data/setup.sh")
 }
 
 
