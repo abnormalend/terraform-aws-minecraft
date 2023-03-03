@@ -27,20 +27,11 @@ resource "aws_ssm_parameter" "minecraft_backups-arn" {
   value = aws_s3_bucket.minecraft_backups[0].arn
 }
 
-# resource "aws_s3_bucket_acl" "minecraft_backups_server_access" {
-#   bucket = aws_s3_bucket.minecraft_backups[0].bucket
-#   access_control_policy {
+resource "aws_s3_bucket_object" "resource_files" {
+  for_each = fileset("resources/", "*")
 
-#     grant {
-#       grantee {
-#         id   = aws_iam_role.minecraft_server_role.arn
-#         type = "CanonicalUser"
-#       }
-#       permission = "FULL_CONTROL"
-#     }
-
-#     owner {
-#       id = aws_iam_role.minecraft_server_role.id
-#     }
-#   }
-# }
+  bucket = aws_s3_bucket.minecraft_files.bucket
+  key = each.value
+  source = "resources/${each.value}"
+  etag = filemd5("resources/${each.value}")
+}
