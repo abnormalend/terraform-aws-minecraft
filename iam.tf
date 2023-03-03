@@ -108,3 +108,18 @@ resource "aws_iam_role_policy" "dns_permissions" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "cloudwatch_permissions" {
+  name = "cloudwatch_permissions"
+  role  = aws_iam_role.minecraft_server_role.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["cloudwatch:PutMetricData*"]
+        Effect   = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
+}
