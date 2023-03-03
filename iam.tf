@@ -81,8 +81,8 @@ data "aws_iam_policy_document" "allow_minecraft_backups" {
       "s3:*",
     ]
     resources = [
-      aws_s3_bucket.minecraft_backups.arn,
-      "${aws_s3_bucket.minecraft_backups.arn}/*",
+      aws_s3_bucket.minecraft_backups[0].arn,
+      "${aws_s3_bucket.minecraft_backups[0].arn}/*",
     ]
   }
 }
