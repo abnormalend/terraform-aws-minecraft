@@ -20,15 +20,29 @@ pip3 install requests mcstatus boto3                    # mcstatus let's us chec
 mkdir -p /opt/{minecraft/server/plugins,resources,s3_resources}
 
 
+
+
+# get the S3 files
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+export MINECRAFT_HOME="/opt/minecraft"
+export_statement=$(aws ec2 describe-tags --region "$REGION" \
+                        --filters "Name=resource-id,Values=$INSTANCE_ID" \
+                        --query 'Tags[?!contains(Key, `:`)].[Key,Value]' \
+                        --output text | \
+                        sed -E 's/^([^\s\t]+)[\s\t]+([^\n]+)$/export \1="\2"/g')
+
+echo $export_statement
+eval $export_statement
 #QUIT HERE FOR NOW
 exit
 
-# Unzip the resources, and get the S3 files
-unzip /tmp/resources.zip -d /opt/resources
+# unzip /tmp/resources.zip -d /opt/resources
 sudo aws s3 sync s3://cdk-minecraft-s3-minecraftfiles07db5e91-11whj41it782o/ /opt/s3_resources
 
 source /opt/resources/export_instance_tags.sh
 echo $MINECRAFT_HOME
+
 
 # Get the minecraft tools from github
 git clone https://github.com/abnormalend/minecraft_aws_tools.git /opt/minecraft_aws_tools
