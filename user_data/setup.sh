@@ -19,6 +19,7 @@ pip3 install requests mcstatus boto3                    # mcstatus let's us chec
 # Create minecraft directories
 mkdir -p /opt/{minecraft/server/plugins,resources,s3_resources}
 
+
 #QUIT HERE FOR NOW
 exit
 
