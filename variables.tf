@@ -57,3 +57,17 @@ variable "dns_zone" {
   type        = string
   default     = ""
 }
+
+
+#Auto shutdown Stuff
+variable "shutdown_when_idle" {
+  description = "Do we want to turn off the server when it is not being used?"
+  type        = bool
+  default     = true
+}
+
+variable "shutdown_minutes" {
+  description = "If shutdown_when_idle is being used, how long before we shut down?"
+  type        = number
+  default     = 30
+}

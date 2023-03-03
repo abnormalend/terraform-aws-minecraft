@@ -90,7 +90,7 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
 
 resource "aws_iam_role_policy" "dns_permissions" {
   count = var.dns_zone != "" ? 1 : 0
-  name = "dns_permissions"
+  name  = "dns_permissions"
   role  = aws_iam_role.minecraft_server_role.name
   policy = jsonencode({
     Version = "2012-10-17"
@@ -111,7 +111,7 @@ resource "aws_iam_role_policy" "dns_permissions" {
 
 resource "aws_iam_role_policy" "cloudwatch_permissions" {
   name = "cloudwatch_permissions"
-  role  = aws_iam_role.minecraft_server_role.name
+  role = aws_iam_role.minecraft_server_role.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
