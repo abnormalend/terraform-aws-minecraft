@@ -29,7 +29,7 @@ resource "aws_instance" "minecraft_server" {
   }
   user_data = <<EOF
 #!/bin/bash
-echo "Test of user data"
+touch ~/test_user_data
 EOF
 }
 
