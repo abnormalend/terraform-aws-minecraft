@@ -32,15 +32,13 @@ export_statement=$(aws ec2 describe-tags --region "$REGION" \
                         --output text | \
                         sed -E 's/^([^\s\t]+)[\s\t]+([^\n]+)$/export \1="\2"/g')
 
-echo $export_statement
 eval $export_statement
-#QUIT HERE FOR NOW
-exit
+
 
 # unzip /tmp/resources.zip -d /opt/resources
-sudo aws s3 sync s3://cdk-minecraft-s3-minecraftfiles07db5e91-11whj41it782o/ /opt/s3_resources
+sudo aws s3 sync $FileUrl /opt/resources
 
-source /opt/resources/export_instance_tags.sh
+# source /opt/resources/export_instance_tags.sh
 echo $MINECRAFT_HOME
 
 
@@ -50,7 +48,7 @@ export MINECRAFT_TOOLS_HOME="/opt/minecraft_aws_tools"
 source /opt/minecraft_aws_tools/install.sh
 
 # Start putting things where they belong
-cp -r /opt/s3_resources/plugins/* /opt/minecraft/server/plugins
+#TODO cp -r /opt/s3_resources/plugins/* /opt/minecraft/server/plugins
 cp /opt/resources/export_instance_tags.sh /etc/profile.d
 
 #Set EULA
