@@ -34,7 +34,6 @@ export_statement=$(aws ec2 describe-tags --region "$REGION" \
 
 eval $export_statement
 
-
 # unzip /tmp/resources.zip -d /opt/resources
 sudo aws s3 sync $FileUrl/setup_files /opt/resources
 sudo aws s3 sync $FileUrl/minecraft_files /opt/s3_resources
