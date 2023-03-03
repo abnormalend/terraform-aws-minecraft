@@ -17,6 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "shutdown_detect" {
   metric_name         = "active_players"
   namespace           = "Minecraft"
   statistic           = "Maximum"
+  period              = 300
   alarm_actions       = ["arn:aws:automate:${var.aws_region}:ec2:stop"]
 
   dimensions = {
