@@ -64,10 +64,11 @@ resource "aws_iam_role_policy" "allow_s3_minecraft_files" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = ["s3:*"]
-        Effect   = "Allow"
-        Resources = [aws_s3_bucket.minecraft_files.arn,
-        "${aws_s3_bucket.minecraft_files.arn}/*"]
+        actions   = ["s3:*"]
+        resources = [
+          aws_s3_bucket.minecraft_files.arn,
+          "${aws_s3_bucket.minecraft_files.arn}/*",
+          ]
       }
     ]
   })
