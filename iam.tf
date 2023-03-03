@@ -88,9 +88,9 @@ data "aws_iam_policy_document" "allow_minecraft_backups" {
 }
 
 resource "aws_iam_role_policy" "allow_s3_minecraft_backups" {
-  count = var.s3_backup ? 1 : 0
-  name  = "minecraft_backups"
-  role  = aws_iam_role.minecraft_server_role.name
+  count  = var.s3_backup ? 1 : 0
+  name   = "minecraft_backups"
+  role   = aws_iam_role.minecraft_server_role.name
   policy = data.aws_iam_policy_document.allow_minecraft_backups.json
 }
 

@@ -33,7 +33,7 @@ resource "aws_ssm_parameter" "minecraft_backups-arn" {
 }
 
 resource "aws_s3_object" "resource_files" {
-  for_each = fileset("resources/", "*")
+  for_each = fileset("resources/", "**")
 
   bucket = aws_s3_bucket.minecraft_files.bucket
   key    = each.value
