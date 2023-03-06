@@ -88,7 +88,7 @@ output "instance_id" {
   value = aws_instance.minecraft_server.id
 }
 
-### Cloduwatch section
+### Cloudwatch section
 resource "aws_cloudwatch_log_group" "minecraft_log" {
   name              = "minecraft_log"
   retention_in_days = 30
@@ -163,16 +163,11 @@ resource "aws_s3_object" "resource_files" {
 
 ### Security Section
 
-resource "aws_default_vpc" "default" {
-  tags = {
-    Name = "Default VPC"
-  }
-}
 
 resource "aws_security_group" "minecraft_security" {
   name        = "minecraft_security"
   description = "Allow access for minecraft server port and ec2 anywhere"
-  vpc_id      = aws_default_vpc.default.id
+  vpc_id      = aws_vpc.main.id
 }
 
 resource "aws_vpc_security_group_egress_rule" "all_out" {
