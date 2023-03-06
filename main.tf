@@ -56,37 +56,7 @@ resource "aws_route_table_association" "public_subnet_asso" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-#instance stuff
 
-resource "aws_iam_instance_profile" "minecraft_server_profile" {
-  name = "minecraft_server_profile"
-  role = aws_iam_role.minecraft_server_role.name
-}
-
-resource "aws_instance" "minecraft_server" {
-  ami                         = data.aws_ami.amzLinux.id
-  instance_type               = var.ec2_instance_type
-  security_groups             = [aws_security_group.minecraft_security.name]
-  iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
-  subnet_id                   = aws_subnet.public_subnets[0].id
-  associate_public_ip_address = true
-  tags = {
-    Name         = "minecraft_server"
-    FileUrl      = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
-    BackupUrl    = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
-    Schedule     = "office-hours"
-    dns_hostname = "terraminecraft"
-  }
-  user_data_replace_on_change = true
-  user_data                   = file("user_data/setup.sh")
-}
-
-
-
-
-output "instance_id" {
-  value = aws_instance.minecraft_server.id
-}
 
 ### Cloudwatch section
 resource "aws_cloudwatch_log_group" "minecraft_log" {
@@ -371,4 +341,34 @@ data "aws_route53_zone" "zone_details" {
 
 output "dns_zone_id" {
   value = data.aws_route53_zone.zone_details.zone_id
+}
+
+#instance stuff
+
+resource "aws_iam_instance_profile" "minecraft_server_profile" {
+  name = "minecraft_server_profile"
+  role = aws_iam_role.minecraft_server_role.name
+}
+
+resource "aws_instance" "minecraft_server" {
+  ami                         = data.aws_ami.amzLinux.id
+  instance_type               = var.ec2_instance_type
+  security_groups             = [aws_security_group.minecraft_security.name]
+  iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
+  subnet_id                   = aws_subnet.public_subnets[0].id
+  associate_public_ip_address = true
+  tags = {
+    Name         = "minecraft_server"
+    FileUrl      = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
+    BackupUrl    = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
+    Schedule     = "office-hours"
+    dns_hostname = "terraminecraft"
+  }
+  user_data_replace_on_change = true
+  user_data                   = file("user_data/setup.sh")
+}
+
+
+output "instance_id" {
+  value = aws_instance.minecraft_server.id
 }
