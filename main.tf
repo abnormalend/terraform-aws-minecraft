@@ -68,7 +68,7 @@ resource "aws_instance" "minecraft_server" {
   instance_type               = var.ec2_instance_type
   security_groups             = [aws_security_group.minecraft_security.name]
   iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
-  subnet_id                   = aws_subnet.public_subnets[0]
+  subnet_id                   = aws_subnet.public_subnets[0].id
   associate_public_ip_address = true
   tags = {
     Name         = "minecraft_server"
