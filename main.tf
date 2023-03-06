@@ -163,7 +163,6 @@ resource "aws_s3_object" "resource_files" {
 
 ### Security Section
 
-
 resource "aws_security_group" "minecraft_security" {
   name        = "minecraft_security"
   description = "Allow access for minecraft server port and ec2 anywhere"
