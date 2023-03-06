@@ -368,7 +368,6 @@ resource "aws_instance" "minecraft_server" {
   user_data                   = file("user_data/setup.sh")
 }
 
-
 output "instance_id" {
   value = aws_instance.minecraft_server.id
 }
