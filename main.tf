@@ -10,7 +10,53 @@ provider "aws" {
 #   state = "available"
 # }
 
+### VPC stuff
+resource "aws_vpc" "main" {
+  cidr_block = var.vpc_cidr_block
 
+  tags = {
+    Name = "Minecraft Terraform VPC"
+  }
+}
+
+resource "aws_subnet" "public_subnets" {
+  count      = length(var.public_subnet_cidrs)
+  vpc_id     = aws_vpc.main.id
+  cidr_block = element(var.public_subnet_cidrs, count.index)
+
+  tags = {
+    Name = "Public Subnet ${count.index + 1}"
+  }
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "Minecraft VPC IG"
+  }
+}
+
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "Public Route Table"
+  }
+}
+
+resource "aws_route_table_association" "public_subnet_asso" {
+  count          = length(var.public_subnet_cidrs)
+  subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
+  route_table_id = aws_route_table.public_rt.id
+}
+
+#instance stuff
 
 resource "aws_iam_instance_profile" "minecraft_server_profile" {
   name = "minecraft_server_profile"
@@ -18,10 +64,12 @@ resource "aws_iam_instance_profile" "minecraft_server_profile" {
 }
 
 resource "aws_instance" "minecraft_server" {
-  ami                  = data.aws_ami.amzLinux.id
-  instance_type        = var.ec2_instance_type
-  security_groups      = [aws_security_group.minecraft_security.name]
-  iam_instance_profile = aws_iam_instance_profile.minecraft_server_profile.name
+  ami                         = data.aws_ami.amzLinux.id
+  instance_type               = var.ec2_instance_type
+  security_groups             = [aws_security_group.minecraft_security.name]
+  iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
+  subnet_id                   = aws_subnet.public_subnets[0]
+  associate_public_ip_address = true
   tags = {
     Name         = "minecraft_server"
     FileUrl      = "s3://${aws_s3_bucket.minecraft_files.bucket}/"

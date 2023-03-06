@@ -44,6 +44,12 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
+variable "public_subnet_cidrs" {
+  type        = list(string)
+  description = "Public Subnet CIDR values"
+  default     = ["10.0.1.0/24"]
+}
+
 #S3 stuff
 variable "s3_backup" {
   description = "Do we plan on backing up the minecraft world to S3?"
