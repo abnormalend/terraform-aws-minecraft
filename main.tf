@@ -19,13 +19,12 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "public_subnets" {
-  count      = length(var.public_subnet_cidrs)
+resource "aws_subnet" "public_subnet" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = element(var.public_subnet_cidrs, count.index)
+  cidr_block = var.public_subnet_cidrs[0]
 
   tags = {
-    Name = "Public Subnet ${count.index + 1}"
+    Name = "Public Subnet"
   }
 }
 
@@ -51,8 +50,7 @@ resource "aws_route_table" "public_rt" {
 }
 
 resource "aws_route_table_association" "public_subnet_asso" {
-  count          = length(var.public_subnet_cidrs)
-  subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
+  subnet_id      = aws_subnet.public_subnet.id
   route_table_id = aws_route_table.public_rt.id
 }
 
@@ -355,7 +353,7 @@ resource "aws_instance" "minecraft_server" {
   instance_type               = var.ec2_instance_type
   security_groups             = [aws_security_group.minecraft_security.name]
   iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
-  subnet_id                   = aws_subnet.public_subnets[0].id
+  subnet_id                   = aws_subnet.public_subnet.id
   associate_public_ip_address = true
   tags = {
     Name         = "minecraft_server"
