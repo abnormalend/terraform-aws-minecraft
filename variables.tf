@@ -41,13 +41,13 @@ variable "ec2_ssh_access" {
 variable "vpc_cidr_block" {
   description = "CIDR block for VPC"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "192.168.0.0/24"
 }
 
 variable "public_subnet_cidrs" {
   type        = list(string)
   description = "Public Subnet CIDR values"
-  default     = ["10.0.1.0/24"]
+  default     = ["192.168.0.0/24"]
 }
 
 #S3 stuff
