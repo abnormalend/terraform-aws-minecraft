@@ -351,7 +351,7 @@ resource "aws_iam_instance_profile" "minecraft_server_profile" {
 resource "aws_instance" "minecraft_server" {
   ami                         = data.aws_ami.amzLinux.id
   instance_type               = var.ec2_instance_type
-  security_groups             = [aws_security_group.minecraft_security.name]
+  security_groups             = [aws_security_group.minecraft_security.id]
   iam_instance_profile        = aws_iam_instance_profile.minecraft_server_profile.name
   subnet_id                   = aws_subnet.public_subnet.id
   associate_public_ip_address = true
