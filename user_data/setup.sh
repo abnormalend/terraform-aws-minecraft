@@ -35,10 +35,16 @@ export_statement=$(aws ec2 describe-tags --region "$REGION" \
 eval $export_statement
 
 # unzip /tmp/resources.zip -d /opt/resources
-sudo aws s3 sync $FileUrl/setup_files /opt/resources
-sudo aws s3 sync $FileUrl/minecraft_files /opt/s3_resources
+echo "running aws s3 sync $FileUrl/setup_files /opt/resources"
+aws s3 sync $FileUrl/setup_files /opt/resources
+echo "running aws s3 sync $FileUrl/minecraft_files /opt/s3_resources"
+aws s3 sync $FileUrl/minecraft_files /opt/s3_resources
 # source /opt/resources/export_instance_tags.sh
-echo $MINECRAFT_HOME
+echo "contents of /opt/resources"
+cat /opt/resources
+echo "contents of /opt/s3_resources"
+cat /opt/s3_resources
+# echo $MINECRAFT_HOME
 
 
 # Get the minecraft tools from github
