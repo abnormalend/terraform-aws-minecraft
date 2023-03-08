@@ -265,9 +265,9 @@ resource "aws_iam_role_policy" "ec2_describe" {
         Resource = "*"
       },
       {
-        Action   = ["ec2:*"]
-        Effect   = "Allow"
-        Resource = aws_instance.minecraft_server.arn
+        Action    = ["ec2:*"]
+        Effect    = "Allow"
+        Resources = aws_instance.minecraft_server.arn
       }
     ]
   })
@@ -281,6 +281,8 @@ data "aws_iam_policy_document" "allow_minecraft_files" {
     resources = [
       aws_s3_bucket.minecraft_files.arn,
       "${aws_s3_bucket.minecraft_files.arn}/*",
+      aws_s3_bucket.minecraft_setup_files.arn,
+      "${aws_s3_bucket.minecraft_setup_files.arn}/*",
     ]
   }
 }

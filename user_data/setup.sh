@@ -20,8 +20,6 @@ pip3 install requests mcstatus boto3                    # mcstatus let's us chec
 mkdir -p /opt/{minecraft/server/plugins,resources,s3_resources}
 
 
-
-
 # get the S3 files
 INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
