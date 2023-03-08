@@ -359,7 +359,7 @@ resource "aws_instance" "minecraft_server" {
     Name         = "minecraft_server"
     FileUrl      = "s3://${aws_s3_bucket.minecraft_files.bucket}/"
     BackupUrl    = "s3://${aws_s3_bucket.minecraft_backups[0].bucket}/"
-    Schedule     = "office-hours"
+    Schedule     = "gr-office-hours"
     dns_hostname = "terraminecraft"
   }
   user_data_replace_on_change = true
