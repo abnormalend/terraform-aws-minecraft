@@ -86,6 +86,10 @@ resource "aws_cloudwatch_metric_alarm" "shutdown_detect" {
 
 ### S3 Section
 
+# Minecraft files are for customizing the minecraft environment.  plugins mods etc
+# Minecraft setup files are resources for managing the instance, starting minecraft, things that exist OUTSIDE minecraft and live at the OS level
+# Minecraft backups is to store saves of the world data if enabled
+
 resource "aws_s3_bucket" "minecraft_files" {
   bucket_prefix = "minecraft-files"
 }
@@ -105,6 +109,43 @@ resource "aws_ssm_parameter" "minecraft-files-arn" {
   value = aws_s3_bucket.minecraft_files.arn
 }
 
+resource "aws_s3_object" "minecraft_files_object" {
+  for_each = fileset("resources/minecraft_files", "**")
+
+  bucket = aws_s3_bucket.minecraft_files.bucket
+  key    = each.value
+  source = "resources/minecraft_files/${each.value}"
+  etag   = filemd5("resources/minecraft_files/${each.value}")
+}
+
+resource "aws_s3_bucket" "minecraft_setup_files" {
+  bucket_prefix = "minecraft-setup-files"
+}
+
+resource "aws_s3_bucket_acl" "minecraft_setup_files_acl" {
+  bucket = aws_s3_bucket.minecraft_setup_files.bucket
+  acl    = "private"
+}
+
+output "minecraft_setup_files_s3_arn" {
+  value = aws_s3_bucket.minecraft_setup_files.arn
+}
+
+resource "aws_ssm_parameter" "minecraft-setup-files-arn" {
+  name  = "minecraft-setup-files-arn"
+  type  = "String"
+  value = aws_s3_bucket.minecraft_setup_files.arn
+}
+
+resource "aws_s3_object" "minecraft_setup_files_object" {
+  for_each = fileset("resources/setup_files", "**")
+
+  bucket = aws_s3_bucket.minecraft_setup_files.bucket
+  key    = each.value
+  source = "resources/setup_files/${each.value}"
+  etag   = filemd5("resources/setup_files/${each.value}")
+}
+
 resource "aws_s3_bucket" "minecraft_backups" {
   count         = var.s3_backup ? 1 : 0
   bucket_prefix = "minecraft-backups"
@@ -120,14 +161,7 @@ resource "aws_ssm_parameter" "minecraft_backups-arn" {
   value = aws_s3_bucket.minecraft_backups[0].arn
 }
 
-resource "aws_s3_object" "resource_files" {
-  for_each = fileset("resources/", "**")
 
-  bucket = aws_s3_bucket.minecraft_files.bucket
-  key    = each.value
-  source = "resources/${each.value}"
-  etag   = filemd5("resources/${each.value}")
-}
 
 ### Security Section
 
