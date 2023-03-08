@@ -35,10 +35,10 @@ export_statement=$(aws ec2 describe-tags --region "$REGION" \
 eval $export_statement
 
 # unzip /tmp/resources.zip -d /opt/resources
-echo "running aws s3 sync $FileUrlsetup_files /opt/resources"
-aws s3 sync $FileUrlsetup_files /opt/resources
-echo "running aws s3 sync $FileUrlminecraft_files /opt/s3_resources"
-aws s3 sync $FileUrlminecraft_files /opt/s3_resources
+echo "running aws s3 sync $SetupUrl /opt/resources"
+aws s3 sync $SetupUrl /opt/resources
+echo "running aws s3 sync $FilesUrl /opt/s3_resources"
+aws s3 sync $FilesUrl /opt/s3_resources
 # source /opt/resources/export_instance_tags.sh
 echo "contents of /opt/resources"
 ls /opt/resources
